@@ -63,7 +63,19 @@ public class MyLinearMap<K, V> implements Map<K, V> {
 	 * @param target
 	 */
 	private Entry findEntry(Object target) {
-        // TODO: fill this in
+        
+        for(int i = 0; i < entries.size(); i++){
+        	
+        	//check each key
+        	if(equals(target, entries.get(i).getKey() ) ){
+        		
+        		//return the Entry
+        		
+        		
+        		return entries.get(i);
+        	}
+        	
+        }
 		return null;
 	}
 
@@ -98,7 +110,16 @@ public class MyLinearMap<K, V> implements Map<K, V> {
 
 	@Override
 	public V get(Object key) {
-        // TODO: fill this in.
+        
+        Entry testEntry = findEntry(key);
+		
+		//the key already exists as an entry
+		if(testEntry != null){
+			
+			return testEntry.getValue();
+		}
+        
+        
 		return null;
 	}
 
@@ -119,7 +140,36 @@ public class MyLinearMap<K, V> implements Map<K, V> {
 	@Override
 	public V put(K key, V value) {
         // TODO: fill this in.
-        return null;
+        
+        //if the key already exists in the map, do not add a new entry
+        //replace old value with the new value and return old value
+        
+        Entry testEntry = findEntry(key);
+        
+
+        
+        if(testEntry != null){
+        	
+        	//System.out.println("extry exists? " + testEntry.getKey() + "  " + testEntry.getValue());
+			//System.out.println("new entry " + key + "  " + value);
+
+        	V oldValue = testEntry.getValue();
+        	testEntry.setValue(value);
+
+        	return oldValue;	
+        
+        }
+        
+        //else create a new entry, add it to "entries", return null
+        else{
+        	//System.out.println("NEW " + key + " " + value);
+        	Entry newEntry = new Entry(key, value);
+        	entries.add(newEntry);
+        	
+        	return null;
+        	
+        }
+        
 	}
 
 	@Override
@@ -131,8 +181,26 @@ public class MyLinearMap<K, V> implements Map<K, V> {
 
 	@Override
 	public V remove(Object key) {
-        // TODO: fill this in.
+		
+		for(int i = 0; i < entries.size(); i++){
+        	
+        	//check each key
+        	if(equals(key, entries.get(i).getKey() ) ){
+        		
+        		V removedVal = entries.get(i).getValue();
+        		
+        		//remove the Entry from entries
+        		
+        		entries.remove(entries.get(i));
+        		
+        		return removedVal;
+        	}
+        	
+        }
+        
+        //there is no entry with the correct corresponding key
         return null;
+		
 	}
 
 	@Override
